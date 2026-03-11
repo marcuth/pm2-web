@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+permissions:
+  contents: write
+
+jobs:
+  build-test-format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Lint
+        run: npm run lint:fix
+
+      - name: Run Tests
+        run: npm run test:coverage
+
+      - name: Formatting code
+        run: npm run format
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+            commit_message: "chore: format and lint fix [skip ci]"
+            branch: master
+            commit_user_name: github-actions[bot]
+            commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
+            commit_author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
