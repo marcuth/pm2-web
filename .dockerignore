@@ -9,7 +9,7 @@ build
 .env.local
 .env.production
 README.md
-AGENTS.md
+GEMINI.md
 npm-debug.log
 docker-compose*.yml
 Dockerfile

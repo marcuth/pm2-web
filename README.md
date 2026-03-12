@@ -1,138 +1,61 @@
-# 🚀 Next.js Boilerplate (v2)
+# 🚀 PM2 Web Panel
 
-Template fullstack moderno e **opinado**, focado em alta performance, produtividade e padronização. Desenvolvido para servir como base sólida para aplicações Next.js escaláveis.
+Interface web moderna, rápida e auto-hospedada para gerenciamento de processos PM2. Desenvolvida com foco em performance bruta, experiência de usuário premium e zero configurações desnecessárias.
 
-## 🛠 Pré-requisitos
+## 🛠 Tech Stack
 
-- Node.js 18+
-- Instância de PostgreSQL (Docker ou local)
+- **Framework:** [Next.js 16 (App Router)](https://nextjs.org/)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Styling:** [Tailwind CSS 4](https://tailwindcss.com/)
+- **Database:** [Prisma ORM](https://www.prisma.io/) (SQLite)
+- **Validation:** [Zod](https://zod.dev/)
+- **Components:** [React 19](https://react.dev/) + [Shadcn/UI](https://ui.shadcn.com/)
 
-## 🗄️ Database Setup
+---
 
-Este projeto vem configurado por padrão com **SQLite** para facilitar o desenvolvimento inicial.
+## ✨ Principais Funcionalidades
 
-### Opção A: Usando SQLite (Padrão)
+- **Dashboard Ecosystem:** Visão geral em tempo real da saúde do servidor, CPU e Memória RAM.
+- **Gerenciamento de Projetos:** Listagem estilo Vercel para organizar seus workspaces.
+- **Controle de Processos:** Inicie, pare, reinicie e exclua processos PM2 via interface.
+- **Terminal Live:** Visualização minimalista de logs (stdout/stderr) em tempo real com estética de console real.
+- **Integração Git:** Botão de pull direto para atualizar seus repositórios antes de reiniciar os processos.
+- **Edição Dinâmica:** Gerencie variáveis de ambiente e configurações de runtime sem tocar em arquivos JSON.
 
-O projeto já está pronto para uso. Basta rodar os comandos de banco mencionados abaixo.
-
-### Opção B: Migrando para PostgreSQL
-
-Se você decidir usar PostgreSQL em vez de SQLite, siga estes passos:
-
-1. **Desinstalar o adaptador SQLite:**
-    ```bash
-    npm uninstall @prisma/adapter-better-sqlite3
-    ```
-2. **Instalar dependências do PostgreSQL:**
-    ```bash
-    npm install pg @prisma/adapter-pg
-    npm install -D @types/pg
-    ```
-3. **Ajustar o `prisma/schema.prisma`:**
-   No arquivo `prisma/schema.prisma`, comente as linhas do SQLite e descomente as do PostgreSQL no bloco `datasource db`.
-4. **Modificar o `src/helpers/prisma.helper.ts`:**
-   Siga as instruções comentadas dentro do arquivo para trocar o adaptador do SQLite pelo adaptador do PostgreSQL.
-
-5. **Atualizar Variáveis de Ambiente:**
-   Certifique-se de que seu `.env` contém uma `DATABASE_URL` válida para PostgreSQL.
+---
 
 ## 🏎 Começando
 
 1. **Instalar dependências:**
-
     ```bash
     npm install
     ```
 
-2. **Configurar variáveis de ambiente:**
-   Renomeie o `.env.example` para `.env` e preencha as credenciais do banco de dados.
-
-3. **Configurar o Banco de Dados:**
-
+2. **Configurar o Banco de Dados:**
     ```bash
     npm run db:generate
-    npm run db:migrate:dev
+    npm run db:push
     ```
 
-4. **Interface Visual (Opcional):**
-
-    ```bash
-    npm run db:studio
-    ```
-
-5. **Iniciar servidor de desenvolvimento:**
+3. **Iniciar servidor de desenvolvimento:**
     ```bash
     npm run dev
     ```
 
-6. **Executar via Docker (Opcional):**
-    ```bash
-    docker-compose up -d
-    ```
+---
 
-## 🐳 Docker
+## 🎨 Filosofia do Projeto
 
-O projeto inclui suporte completo a Docker para desenvolvimento e produção.
+- **Performance & UX First:** Interface fluída com micro-animações e feedback instantâneo.
+- **Zero SEO:** Aplicação focada em uso interno/administrativo. Sem meta tags ou rastreadores.
+- **No Auth:** Acesso aberto para redes locais ou protegidas por VPN. Prioridade total na facilidade de acesso.
+- **Premium Design:** Estética escura (Dark Mode) por padrão, inspirada em terminais modernos e ferramentas de desenvolvedor de alto nível.
 
-- **`Dockerfile`**: Build multi-estágio otimizado para produção usando `standalone` output do Next.js.
-- **`docker-compose.yml`**: Orquestra a aplicação e um banco de dados PostgreSQL.
+## 📂 Convenções
 
-Para iniciar o ambiente com **PostgreSQL**:
-```bash
-docker-compose --profile postgres up --build
-```
-
-Para iniciar apenas a aplicação usando **SQLite** (padrão do .env):
-```bash
-docker-compose up --build
-```
-
-## 🎨 Interface e Shadcn/UI
-
-Para manter a aplicação leve e única em termos de design, este projeto foi projetado para utilizar o **shadcn/ui via CLI**.
-
-> [!IMPORTANT]
-> **NÃO** reutilize componentes e estilos de projetos anteriores mecanicamente. Para cada novo projeto, utilize o **shadcn/ui create** para fazer o setup inicial dos componentes base. Isso evita que todos os seus projetos tenham exatamente a mesma aparência e permite personalização total desde o início:
->
-> 🔗 **[https://ui.shadcn.com/create](https://ui.shadcn.com/create)**
-
-### 🎨 Ícones
-Neste projeto, utilizamos o **`react-icons`**, priorizando a biblioteca **Lucide** (`react-icons/lu`) para manter a consistência visual.
-
-## 📜 Convenções e Arquitetura
-
-Este projeto segue regras estritas de arquitetura e qualidade de código documentadas no arquivo [`AGENTS.md`](./AGENTS.md).
-
-## 🔍 SEO e Melhores Práticas
-
-Este repositório inclui um guia completo com dicas de SEO, baseado no artigo de **Daniel Lima**:
-🔗 **[Melhor Guia de SEO para Dev](https://www.tabnews.com.br/daniellimae/melhor-guia-do-seo-para-dev-usando-codigo-para-aumentar-sua-visualizacao-organica)**.
-
-Você pode encontrar o guia localmente em [`SEO-SKILLS.md`](./SEO-SKILLS.md).
-
-**Destaques:**
-
-- Indentação de 4 espaços.
-- Sem ponto e vírgula (`;`).
-- Aspas duplas (`"`).
-- Uso da palavra-chave `function` para funções utilitárias.
-- **Backend Automático:** Utilize o comando `npm run ci` antes de cada commit importante para garantir que o projeto permanece estável.
-
-## 🛣️ Rotas de API Implementadas
-
-- `GET /api/auth/me` - Retorna os dados do usuário logado (token JWT).
-- `GET /api/users` - Lista todos os usuários (Apenas Admin).
-- `POST /api/users` - Cria um novo usuário (Apenas Admin).
-- `GET /api/users/{id}` - Busca um usuário por ID (Admin ou o próprio Usuário).
-- `PATCH /api/users/{id}` - Atualiza um usuário por ID (Admin ou o próprio Usuário).
-- `DELETE /api/users/{id}` - Deleta um usuário por ID (Admin ou o próprio Usuário).
-
-## 🤖 Scripts Úteis
-
-- `npm run format`: Formata todo o código com Prettier.
-- `npm run lint:fix`: Corrige problemas de linting automaticamente.
-- `npm run ci`: Executa o fluxo completo de CI local (lint, format e testes com coverage).
-- `npm run db:seed:dev`: Popula o banco com dados de teste usando `tsx`.
+- **Indentação:** 4 espaços.
+- **Semicolons:** Não utilizados (`;` removidos).
+- **Kebab-case:** Padrão para nomes de arquivos e componentes.
 
 ---
 

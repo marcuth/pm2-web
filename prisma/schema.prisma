@@ -6,33 +6,40 @@
 
 generator client {
     provider     = "prisma-client"
-    moduleFormat = "cjs"
+    moduleFormat = "esm"
     output       = "../src/generated/prisma"
 }
 
 datasource db {
     // Para SQLite (Padrão)
     provider = "sqlite"
-
-    // Para PostgreSQL (Comente o SQLite acima e descomente abaixo)
-    // provider = "postgresql"
 }
 
-enum UserRole {
-    ADMIN
-    USER
+model Project {
+    id          String    @id @default(uuid())
+    name        String    @unique
+    cwd         String    // Current Working Directory
+    mainFile    String?   // Entrypoint (index.js, ecosystem.config.js, etc)
+    envPath     String?   // Path to .env file relative to cwd or absolute
+    createdAt   DateTime  @default(now()) @map("created_at")
+    updatedAt   DateTime? @updatedAt @map("updated_at")
+
+    processes   Process[]
+
+    @@map("projects")
 }
 
-model User {
-    id        String    @id @default(uuid())
-    createdAt DateTime  @default(now()) @map("created_at")
-    updatedAt DateTime? @updatedAt @map("updated_at")
-    name      String
-    role      UserRole  @default(USER)
-    email     String    @unique
-    username  String    @unique
-    apiKey    String    @unique @map("api_key")
-    password  String
+model Process {
+    id          String    @id @default(uuid())
+    name        String    @unique
+    projectId   String    @map("project_id")
+    status      String?   // status cached? Or we just read from PM2
+    config      String?   // JSON string with more pm2 config if needed
+    
+    project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
-    @@map("users")
+    createdAt   DateTime  @default(now()) @map("created_at")
+    updatedAt   DateTime? @updatedAt @map("updated_at")
+
+    @@map("processes")
 }
